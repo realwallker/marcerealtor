@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Marcelo Ramirez Celleri · Realtor · ONE Destiny">
+    <meta property="og:title" content="Marcelo Ramirez Celleri | Realtor">
+    <meta property="og:description" content="Gestión estratégica de propiedades. Compra, venta y alquiler con excelencia.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.instagram.com/marce.realtor/favicon.ico">
+    <meta name="theme-color" content="#0D0D0D">
+
+    <title>Marcelo Ramirez Celleri | Realtor</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #0D0D0D;
+            --bg-container: #1B263B;
+            --accent-gold: #FFD700;
+            --text-primary: #FFFFFF;
+            --text-secondary: #8E8E93;
+            --border-subtle: rgba(142, 142, 147, 0.35);
+            --border-hover: #FFD700;
+            --font-stack: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            --transition-smooth: 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+            --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            font-family: var(--font-stack);
+            color: var(--text-primary);
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 20px;
+            position: relative;
+            overflow-x: hidden;
+            background:
+                radial-gradient(ellipse 600px 500px at 50% 22%, rgba(27, 38, 59, 0.7) 0%, transparent 60%),
+                radial-gradient(ellipse 300px 280px at 50% 20%, rgba(255, 215, 0, 0.04) 0%, transparent 70%),
+                var(--bg-primary);
+        }
+
+        /* ── Contenedor de animaciones de fondo (propiedades dibujadas) ── */
+        .bg-properties {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* Cada icono SVG posicionado absolutamente */
+        .bg-icon {
+            position: absolute;
+            opacity: 0;
+            filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.5));
+            animation: drawAndGlow 12s infinite ease-in-out;
+        }
+
+        .bg-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--accent-gold);
+            fill: none;
+            stroke-width: 1.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 250;
+            stroke-dashoffset: 250;
+        }
+
+        /* Posiciones y retrasos para cada icono */
+        .icon-house {
+            left: 8%;
+            top: 15%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0s;
+        }
+        .icon-key {
+            left: 85%;
+            top: 25%;
+            width: 50px;
+            height: 50px;
+            animation-delay: 2s;
+        }
+        .icon-building {
+            left: 75%;
+            top: 70%;
+            width: 70px;
+            height: 70px;
+            animation-delay: 4s;
+        }
+        .icon-pin {
+            left: 15%;
+            top: 75%;
+            width: 55px;
+            height: 55px;
+            animation-delay: 6s;
+        }
+        .icon-realtor {
+            left: 45%;
+            top: 85%;
+            width: 65px;
+            height: 65px;
+            animation-delay: 8s;
+        }
+
+        @keyframes drawAndGlow {
+            0% {
+                opacity: 0;
+                stroke-dashoffset: 250;
+                filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.2));
+            }
+            15% {
+                opacity: 0.8;
+            }
+            35% {
+                stroke-dashoffset: 0;
+                opacity: 0.9;
+                filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+            }
+            55% {
+                stroke-dashoffset: 0;
+                opacity: 0.7;
+                filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+            }
+            75% {
+                opacity: 0;
+                stroke-dashoffset: 250;
+                filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.2));
+            }
+            100% {
+                opacity: 0;
+                stroke-dashoffset: 250;
+                filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.2));
+            }
+        }
+
+        /* ── Contenedor principal ── */
+        .main-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+        body.loaded .main-container {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Foto de perfil ── */
+        .profile-pic-wrapper {
+            position: relative;
+            width: 104px;
+            height: 104px;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.6s ease-out 0.1s, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s;
+        }
+        body.loaded .profile-pic-wrapper {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--accent-gold);
+            background: #1a1a1d;
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+        }
+        .profile-pic img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .profile-pic-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -7px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.18) 0%, transparent 70%);
+            z-index: 1;
+            animation: subtleGlow 3s ease-in-out infinite;
+        }
+        @keyframes subtleGlow {
+            0%,
+            100% {
+                opacity: 0.55;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.06);
+            }
+        }
+        .profile-pic-wrapper::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            z-index: 3;
+            pointer-events: none;
+            animation: ringPulse 3s ease-in-out infinite;
+        }
+        @keyframes ringPulse {
+            0%,
+            100% {
+                opacity: 0.4;
+                inset: -3px;
+            }
+            50% {
+                opacity: 0.85;
+                inset: -7px;
+            }
+        }
+
+        /* ── Nombre ── */
+        .name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 4px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease-out 0.2s, transform 0.5s ease-out 0.2s;
+        }
+        body.loaded .name {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Título ── */
+        .title {
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 6px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease-out 0.25s, transform 0.5s ease-out 0.25s;
+        }
+        body.loaded .title {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Bio ── */
+        .bio {
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 330px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease-out 0.3s, transform 0.5s ease-out 0.3s;
+        }
+        body.loaded .bio {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Lista de enlaces ── */
+        .links-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+            width: 100%;
+            padding: 0;
+        }
+        .links-list li {
+            width: 100%;
+            opacity: 0;
+            transform: translateY(14px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        /* Secuencia de aparición (WhatsApp primero) */
+        body.loaded .links-list li:nth-child(1) {
+            transition-delay: 0.35s;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        body.loaded .links-list li:nth-child(2) {
+            transition-delay: 0.4s;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        body.loaded .links-list li:nth-child(3) {
+            transition-delay: 0.45s;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        body.loaded .links-list li:nth-child(4) {
+            transition-delay: 0.5s;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Botones de enlace ── */
+        .link-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 15px 18px;
+            border-radius: 16px;
+            background: var(--bg-container);
+            border: 1px solid var(--border-subtle);
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-family: var(--font-stack);
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: -0.1px;
+            position: relative;
+            overflow: hidden;
+            transition:
+                border-color var(--transition-smooth),
+                transform var(--transition-smooth),
+                box-shadow var(--transition-smooth),
+                background var(--transition-smooth);
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            outline: none;
+        }
+        .link-btn:focus-visible {
+            outline: 2px solid var(--accent-gold);
+            outline-offset: 3px;
+            border-radius: 18px;
+        }
+        .link-btn:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 215, 0, 0.15) inset;
+        }
+        .link-btn:active {
+            transform: scale(0.975);
+            transition: transform 0.12s ease-out;
+        }
+
+        /* Ripple */
+        .link-btn .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(0);
+            animation: rippleAnim 0.7s ease-out forwards;
+            pointer-events: none;
+        }
+        @keyframes rippleAnim {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        .link-btn .btn-icon {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            color: var(--text-secondary);
+            transition: color var(--transition-smooth), transform var(--transition-smooth);
+        }
+        .link-btn:hover .btn-icon {
+            color: var(--accent-gold);
+            transform: translateX(-2px);
+        }
+        .link-btn .btn-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            flex: 1;
+            min-width: 0;
+        }
+        .link-btn .btn-label {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            line-height: 1.2;
+        }
+        .link-btn .btn-sub {
+            font-weight: 400;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.1px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .link-btn .btn-arrow {
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
+            color: var(--text-secondary);
+            opacity: 0;
+            transform: translateX(-6px);
+            transition: opacity var(--transition-smooth), transform var(--transition-smooth), color var(--transition-smooth);
+        }
+        .link-btn:hover .btn-arrow {
+            opacity: 1;
+            transform: translateX(0);
+            color: var(--accent-gold);
+        }
+
+        /* ── Botón destacado (WhatsApp) ── */
+        .link-btn.featured {
+            background: var(--accent-gold);
+            border: 1px solid var(--accent-gold);
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+            transition:
+                border-color var(--transition-smooth),
+                transform var(--transition-smooth),
+                box-shadow var(--transition-smooth),
+                background var(--transition-smooth),
+                filter var(--transition-smooth);
+        }
+        .link-btn.featured:hover {
+            background: #ffe533;
+            border-color: #ffe533;
+            box-shadow: 0 16px 36px rgba(255, 215, 0, 0.35), 0 0 0 1px rgba(255, 215, 0, 0.4) inset;
+            transform: translateY(-4px);
+            filter: brightness(1.06);
+        }
+        .link-btn.featured .btn-label {
+            color: #0D0D0D;
+            font-weight: 600;
+        }
+        .link-btn.featured .btn-sub {
+            color: #3a3510;
+            font-weight: 500;
+        }
+        .link-btn.featured .btn-icon {
+            color: #0D0D0D;
+        }
+        .link-btn.featured .btn-arrow {
+            color: #0D0D0D;
+            opacity: 0;
+            transform: translateX(-6px);
+        }
+        .link-btn.featured:hover .btn-arrow {
+            opacity: 1;
+            transform: translateX(0);
+            color: #0D0D0D;
+        }
+        .link-btn.featured:hover .btn-icon {
+            color: #0D0D0D;
+            transform: translateX(-2px);
+        }
+        .link-btn.featured .ripple {
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        /* ── Footer ── */
+        .footer {
+            margin-top: 32px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease-out 0.6s, transform 0.5s ease-out 0.6s;
+        }
+        body.loaded .footer {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .footer .brand {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+        .footer .brand span {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+        .footer .rights {
+            font-size: 0.65rem;
+            color: rgba(142, 142, 147, 0.5);
+            margin-top: 3px;
+            letter-spacing: 0.3px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 380px) {
+            .main-container {
+                max-width: 100%;
+            }
+            .profile-pic-wrapper {
+                width: 88px;
+                height: 88px;
+                margin-bottom: 16px;
+            }
+            .name {
+                font-size: 1.3rem;
+            }
+            .title {
+                font-size: 0.7rem;
+                letter-spacing: 2.5px;
+            }
+            .bio {
+                font-size: 0.75rem;
+                max-width: 280px;
+                margin-bottom: 22px;
+            }
+            .link-btn {
+                padding: 13px 14px;
+                border-radius: 14px;
+                gap: 10px;
+            }
+            .link-btn .btn-label {
+                font-size: 0.82rem;
+            }
+            .link-btn .btn-sub {
+                font-size: 0.68rem;
+            }
+            .link-btn .btn-icon {
+                width: 19px;
+                height: 19px;
+            }
+            .links-list {
+                gap: 9px;
+            }
+        }
+        @media (min-width: 420px) {
+            .link-btn {
+                padding: 16px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fondo animado: dibujos sutiles de propiedades -->
+    <div class="bg-properties" aria-hidden="true">
+        <!-- Casa -->
+        <div class="bg-icon icon-house">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 10L12 3l9 7v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10z" />
+                <path d="M9 21V12h6v9" />
+                <circle cx="10.5" cy="16.5" r="0.8" />
+            </svg>
+        </div>
+        <!-- Llave -->
+        <div class="bg-icon icon-key">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="8" cy="16" r="5.5" />
+                <path d="M11.5 12.5L19 5l2 2-4 4" />
+                <path d="M19 5l1-1" />
+            </svg>
+        </div>
+        <!-- Edificio -->
+        <div class="bg-icon icon-building">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="4" y="2" width="16" height="20" rx="1" />
+                <line x1="9" y1="6" x2="9" y2="10" />
+                <line x1="9" y1="13" x2="9" y2="17" />
+                <line x1="15" y1="6" x2="15" y2="10" />
+                <line x1="15" y1="13" x2="15" y2="17" />
+            </svg>
+        </div>
+        <!-- Pin de ubicación -->
+        <div class="bg-icon icon-pin">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                <circle cx="12" cy="9" r="2.5" />
+            </svg>
+        </div>
+        <!-- Ícono de agente / casa con persona -->
+        <div class="bg-icon icon-realtor">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 10L12 3l9 7v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V10z" />
+                <circle cx="12" cy="15" r="3" />
+                <path d="M12 18v3" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Contenedor central -->
+    <main class="main-container" role="main">
+        <!-- Foto de perfil -->
+        <div class="profile-pic-wrapper">
+            <!-- ══════════════════════════════════════════════
+            REEMPLAZA LA RUTA DE LA IMAGEN CON TU FOTO
+            ══════════════════════════════════════════════ -->
+            <div class="profile-pic">
+                <img src="ruta/a/tu-foto.jpg" alt="Marcelo Ramirez Celleri – Realtor">
+            </div>
+        </div>
+
+        <!-- Nombre -->
+        <h1 class="name">Marcelo Ramirez Celleri</h1>
+
+        <!-- Título -->
+        <p class="title">Realtor</p>
+
+        <!-- Bio extendida -->
+        <p class="bio">Especialista en la gestión estratégica de propiedades. Facilito tus transacciones de compra, venta y alquiler bajo estándares de excelencia. Tu visión inmobiliaria, ejecutada con precisión.</p>
+
+        <!-- Lista de enlaces (WhatsApp primero) -->
+        <ul class="links-list">
+            <!-- WhatsApp Business (destacado, primer lugar) -->
+            <li>
+                <a href="https://wa.me/593978814263?text=Hola%20Marcelo%2C%20me%20gustar%C3%ADa%20agendar%20una%20asesor%C3%ADa%20inmobiliaria"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="link-btn featured"
+                   aria-label="WhatsApp Business - Agendar Asesoría">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21z"/>
+                        <path d="M9 10h.01M12 10h.01M15 10h.01"/>
+                    </svg>
+                    <span class="btn-text-wrapper">
+                        <span class="btn-label">Agendar Asesoría</span>
+                        <span class="btn-sub">+593 97 881 4263</span>
+                    </span>
+                    <svg class="btn-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 4l4 4-4 4"/>
+                    </svg>
+                </a>
+            </li>
+
+            <!-- Instagram -->
+            <li>
+                <a href="https://www.instagram.com/marce.realtor"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="link-btn"
+                   aria-label="Instagram - marce.realtor">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="6" ry="6"/>
+                        <circle cx="12" cy="12" r="5"/>
+                        <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/>
+                    </svg>
+                    <span class="btn-text-wrapper">
+                        <span class="btn-label">Instagram</span>
+                        <span class="btn-sub">@marce.realtor</span>
+                    </span>
+                    <svg class="btn-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 4l4 4-4 4"/>
+                    </svg>
+                </a>
+            </li>
+
+            <!-- TikTok -->
+            <li>
+                <a href="https://www.tiktok.com/@marceramrealtor1"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="link-btn"
+                   aria-label="TikTok - marceramrealtor1">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
+                    </svg>
+                    <span class="btn-text-wrapper">
+                        <span class="btn-label">TikTok</span>
+                        <span class="btn-sub">@marceramrealtor1</span>
+                    </span>
+                    <svg class="btn-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 4l4 4-4 4"/>
+                    </svg>
+                </a>
+            </li>
+
+            <!-- Correo -->
+            <li>
+                <a href="mailto:marceramrealtor@gmail.com"
+                   class="link-btn"
+                   aria-label="Correo electrónico - marceramrealtor@gmail.com">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="4" width="20" height="16" rx="3"/>
+                        <path d="M2 6l10 7 10-7"/>
+                    </svg>
+                    <span class="btn-text-wrapper">
+                        <span class="btn-label">Correo</span>
+                        <span class="btn-sub">marceramrealtor@gmail.com</span>
+                    </span>
+                    <svg class="btn-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 4l4 4-4 4"/>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="brand">ONE <span>Destiny</span></p>
+            <p class="rights">&copy; 2024 · Todos los derechos reservados</p>
+        </footer>
+    </main>
+
+    <script>
+        (function() {
+            const body = document.body;
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    requestAnimationFrame(() => body.classList.add('loaded'));
+                });
+            } else {
+                requestAnimationFrame(() => body.classList.add('loaded'));
+            }
+
+            // Efecto Ripple en botones
+            const buttons = document.querySelectorAll('.link-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    ripple.classList.add('ripple');
+                    const rect = btn.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height) * 1.4;
+                    ripple.style.width = size + 'px';
+                    ripple.style.height = size + 'px';
+                    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                    btn.appendChild(ripple);
+                    ripple.addEventListener('animationend', () => ripple.remove());
+                });
+            });
+
+            // Efecto sutil de parallax en foto de perfil (solo desktop)
+            if (window.matchMedia('(pointer: fine) and (hover: hover)').matches) {
+                const profileWrapper = document.querySelector('.profile-pic-wrapper');
+                document.addEventListener('mousemove', function(e) {
+                    const xAxis = (window.innerWidth / 2 - e.clientX) / 80;
+                    const yAxis = (window.innerHeight / 2 - e.clientY) / 80;
+                    if (profileWrapper) {
+                        profileWrapper.style.transform =
+                            `translate(${xAxis * 3}px, ${yAxis * 3}px)`;
+                    }
+                });
+                document.addEventListener('mouseleave', function() {
+                    if (profileWrapper) {
+                        profileWrapper.style.transform = 'translate(0, 0)';
+                        profileWrapper.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)';
+                        setTimeout(() => {
+                            profileWrapper.style.transition = '';
+                        }, 600);
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
