@@ -46,7 +46,6 @@
             background: radial-gradient(ellipse 800px 600px at 50% 20%, rgba(27, 38, 59, 0.5) 0%, transparent 70%), #0D0D0D;
         }
 
-        /* --- Fondo de partículas doradas (sigue al mouse) --- */
         .mouse-glow {
             position: fixed;
             width: 500px;
@@ -63,7 +62,6 @@
             .mouse-glow { display: none; }
         }
 
-        /* Contenedor principal (centrado, clásico) */
         .main-container {
             position: relative;
             z-index: 10;
@@ -118,7 +116,6 @@
         .bio { font-size: 0.8rem; font-weight: 300; color: var(--text-secondary); text-align: center; max-width: 320px; line-height: 1.5; margin: 0 auto 28px; opacity:0; transform:translateY(8px); transition: opacity 0.4s 0.3s, transform 0.4s 0.3s; }
         body.loaded .name, body.loaded .title, body.loaded .bio { opacity:1; transform:translateY(0); }
 
-        /* Lista de enlaces general */
         .links-list {
             list-style: none;
             display: flex;
@@ -136,7 +133,6 @@
         body.loaded .links-list li:nth-child(7) { transition-delay: 0.65s; opacity:1; transform:translateY(0); }
         body.loaded .links-list li:nth-child(8) { transition-delay: 0.7s; opacity:1; transform:translateY(0); }
 
-        /* Estilo base de botones */
         .link-btn {
             display: flex;
             align-items: center;
@@ -178,7 +174,6 @@
         .link-btn.featured .btn-label, .link-btn.featured .btn-sub, .link-btn.featured .btn-icon { color: #0D0D0D; }
         .link-btn.featured:hover { background: #ffe44d; transform: translateY(-2px); box-shadow: 0 10px 25px rgba(255,215,0,0.4); }
 
-        /* Grid de proyectos principales (2 columnas) */
         .projects-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -226,7 +221,6 @@
         .project-card .project-name { font-weight: 600; font-size: 0.9rem; text-shadow: 0 1px 2px black; }
         .project-card .project-hint { font-size: 0.7rem; opacity: 0.8; }
 
-        /* Grid horizontal de 4 mini proyectos */
         .mini-projects-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -275,7 +269,6 @@
             color: white;
         }
 
-        /* Sección de dos columnas: Podcast + Cal.com */
         .two-col-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -317,7 +310,6 @@
             color: var(--text-secondary);
         }
 
-        /* Tarjeta de contacto (formulario) */
         .contact-trigger-card {
             background: linear-gradient(135deg, rgba(27,38,59,0.6), rgba(0,0,0,0.4));
             backdrop-filter: blur(12px);
@@ -336,7 +328,6 @@
         .contact-trigger-card h4 { font-size: 1rem; font-weight: 500; margin-bottom: 6px; }
         .contact-trigger-card p { font-size: 0.75rem; color: var(--text-secondary); }
 
-        /* Footer */
         .footer { margin-top: 30px; text-align: center; opacity:0; transition: opacity 0.4s 0.7s; }
         body.loaded .footer { opacity:1; }
         .footer .brand { font-size:0.7rem; letter-spacing:2px; text-transform:uppercase; color:var(--text-secondary); }
@@ -418,7 +409,7 @@
         .btn-submit:hover { background: #ffe44d; transform: scale(0.98); }
         .iframe-cal { width: 100%; height: 550px; border: none; border-radius: 24px; }
 
-        /* GALERÍA LIGHTBOX - MEJORADA CON SCRIPT DE REDIMENSIONADO */
+        /* GALERÍA LIGHTBOX - CON ALTURA FIJA PARA EVITAR REBOTES */
         .gallery-overlay {
             position: fixed;
             inset: 0;
@@ -468,9 +459,10 @@
         }
         .gallery-share:hover, .gallery-close:hover { color: var(--accent-gold); }
         
+        /* Área de medios con altura fija (evita saltos) */
         .gallery-media {
-            flex: 1;
-            min-height: 0;
+            height: 55vh;
+            min-height: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -479,7 +471,6 @@
             touch-action: pan-y pinch-zoom;
             padding: 10px;
         }
-        /* Estilos base: la imagen/video se adapta al contenedor */
         .gallery-media img, 
         .gallery-media video {
             max-width: 100%;
@@ -487,13 +478,23 @@
             width: auto;
             height: auto;
             object-fit: contain;
-            transition: transform 0.2s;
+            transition: opacity 0.2s ease;
             cursor: zoom-in;
+        }
+        /* Suavizar la aparición */
+        .gallery-media img, .gallery-media video {
+            opacity: 0;
+            animation: fadeInMedia 0.25s forwards;
+        }
+        @keyframes fadeInMedia {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
         }
         .gallery-media img.zoomed { 
             transform: scale(1.8); 
             cursor: zoom-out;
             z-index: 20;
+            transition: transform 0.2s;
         }
         .gallery-nav {
             position: absolute;
@@ -547,7 +548,7 @@
             .prestige-card { padding: 12px 6px; }
             .prestige-card .card-icon { width: 28px; height: 28px; }
             .gallery-nav { width: 32px; height: 32px; font-size: 1.3rem; }
-            .gallery-media { padding: 5px; }
+            .gallery-media { height: 50vh; min-height: 220px; }
         }
     </style>
 </head>
@@ -576,7 +577,7 @@
             </a>
         </li>
 
-        <!-- Proyectos principales (Aura Bay y Piedra del Sol) -->
+        <!-- Proyectos principales -->
         <li class="projects-grid">
             <div class="project-card" style="background-image: url('img/aurabay/thumbnail.webp');" data-project="aurabay">
                 <div class="card-content"><div class="project-name">Aura Bay</div><div class="project-hint">Ver galería</div></div>
@@ -586,7 +587,7 @@
             </div>
         </li>
 
-        <!-- Grid horizontal de 4 mini proyectos (totalmente ajustable) -->
+        <!-- Grid horizontal de 4 mini proyectos -->
         <li class="mini-projects-grid" id="miniProjectsGrid"></li>
 
         <!-- Sección dos columnas: Podcast y Cal.com -->
@@ -615,7 +616,7 @@
             </div>
         </li>
 
-        <!-- Tarjeta de contacto formulario -->
+        <!-- Tarjeta de contacto -->
         <li>
             <div class="contact-trigger-card" id="contactFormTrigger">
                 <h4>📩 ¿Prefieres que te contacte yo?</h4>
@@ -804,7 +805,7 @@
             window.open('https://primerapiedraec.vercel.app/', '_blank');
         });
 
-        // ----- GALERÍA DE PROYECTOS (Aura Bay y Piedra del Sol) -----
+        // ----- GALERÍA DE PROYECTOS -----
         const projects = {
             aurabay: {
                 title: 'Aura Bay',
@@ -843,71 +844,6 @@
         let currentProject = null;
         let currentIndex = 0;
 
-        // ---------- FUNCIÓN PARA REDIMENSIONAR Y AJUSTAR IMAGEN/VIDEO AL CONTENEDOR ----------
-        function resizeMediaToFit() {
-            const mediaContainer = document.querySelector('.gallery-media');
-            if (!mediaContainer) return;
-            const containerRect = mediaContainer.getBoundingClientRect();
-            const containerHeight = containerRect.height;
-            const containerWidth = containerRect.width;
-            const activeMedia = mainImage.style.display === 'block' ? mainImage : (mainVideo.style.display === 'block' ? mainVideo : null);
-            if (!activeMedia) return;
-            
-            // Esperar a que el recurso tenga dimensiones reales
-            const applyConstraints = () => {
-                let naturalWidth, naturalHeight;
-                if (activeMedia.tagName === 'IMG') {
-                    naturalWidth = activeMedia.naturalWidth;
-                    naturalHeight = activeMedia.naturalHeight;
-                } else if (activeMedia.tagName === 'VIDEO') {
-                    naturalWidth = activeMedia.videoWidth;
-                    naturalHeight = activeMedia.videoHeight;
-                }
-                if (!naturalWidth || !naturalHeight) return;
-                
-                // Si la altura natural es mayor que la altura del contenedor, aplicamos max-height al 100% del contenedor
-                if (naturalHeight > containerHeight || naturalWidth > containerWidth) {
-                    activeMedia.style.maxHeight = `${containerHeight}px`;
-                    activeMedia.style.maxWidth = `${containerWidth}px`;
-                    activeMedia.style.width = 'auto';
-                    activeMedia.style.height = 'auto';
-                } else {
-                    // Si entra bien, quitamos restricciones extra
-                    activeMedia.style.maxHeight = '';
-                    activeMedia.style.maxWidth = '';
-                }
-            };
-            
-            if (activeMedia.tagName === 'IMG' && !activeMedia.complete) {
-                activeMedia.onload = applyConstraints;
-            } else if (activeMedia.tagName === 'VIDEO' && activeMedia.readyState < 1) {
-                activeMedia.addEventListener('loadedmetadata', applyConstraints, { once: true });
-            } else {
-                applyConstraints();
-            }
-        }
-        
-        // Observador de cambios de tamaño del contenedor (resize de ventana o cambios de orientación)
-        let resizeObserver = null;
-        function observeMediaContainer() {
-            const container = document.querySelector('.gallery-media');
-            if (!container) return;
-            if (resizeObserver) resizeObserver.disconnect();
-            resizeObserver = new ResizeObserver(() => {
-                if (overlayGallery.classList.contains('active')) {
-                    resizeMediaToFit();
-                }
-            });
-            resizeObserver.observe(container);
-        }
-        
-        // Llamar a resize después de mostrar cada media
-        function afterShowMedia() {
-            setTimeout(() => {
-                resizeMediaToFit();
-            }, 50);
-        }
-        
         // Swipe táctil
         let touchStartX = 0;
         const mediaDiv = document.querySelector('.gallery-media');
@@ -926,10 +862,6 @@
         // Zoom con doble clic (en imagen)
         mainImage.addEventListener('dblclick', () => { 
             mainImage.classList.toggle('zoomed');
-            if (!mainImage.classList.contains('zoomed')) {
-                // Al salir del zoom, reajustamos
-                resizeMediaToFit();
-            }
         });
         
         function closeGallery() {
@@ -942,33 +874,25 @@
 
         function showMedia(index) {
             const item = currentProject.media[index];
+            // Ocultar ambos y resetear estilos
             mainImage.style.display = 'none';
             mainVideo.style.display = 'none';
             mainVideo.pause();
             mainVideo.removeAttribute('src');
             mainImage.classList.remove('zoomed');
-            // Reset estilos max-height
-            mainImage.style.maxHeight = '';
-            mainVideo.style.maxHeight = '';
             
             if (item.type === 'image') {
                 mainImage.src = item.src;
                 mainImage.alt = item.alt || '';
                 mainImage.style.display = 'block';
-                // Ajustar después de carga
-                if (mainImage.complete) {
-                    afterShowMedia();
-                } else {
-                    mainImage.onload = afterShowMedia;
-                }
             } else if (item.type === 'video') {
                 mainVideo.src = item.src;
                 if (item.poster) mainVideo.poster = item.poster;
                 mainVideo.style.display = 'block';
                 mainVideo.load();
                 mainVideo.play().catch(e => console.log("Autoplay no permitido"));
-                mainVideo.addEventListener('loadedmetadata', afterShowMedia, { once: true });
             }
+            // Actualizar thumbnails activos
             document.querySelectorAll('.thumb').forEach((thumb, i) => {
                 thumb.classList.toggle('active', i === index);
             });
@@ -1005,10 +929,6 @@
             renderGallery();
             overlayGallery.classList.add('active');
             document.body.style.overflow = 'hidden';
-            // Iniciar observador de tamaño
-            observeMediaContainer();
-            // Ajuste inicial
-            setTimeout(() => resizeMediaToFit(), 100);
         }
 
         shareBtn.addEventListener('click', () => {
@@ -1036,13 +956,6 @@
             if(e.key === 'Escape') closeGallery();
             else if(e.key === 'ArrowLeft') prevMedia();
             else if(e.key === 'ArrowRight') nextMedia();
-        });
-        
-        // Redimensionar al cambiar orientación o tamaño de ventana
-        window.addEventListener('resize', () => {
-            if (overlayGallery.classList.contains('active')) {
-                resizeMediaToFit();
-            }
         });
 
         // Ripple en botones
