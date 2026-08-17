@@ -1,10 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
   "alias": ["marcerealtor.vercel.app"],
   "rewrites": [
     {
-      "source": "/:path*",
-      "destination": "https://soykarinacelleri.vercel.app/:path*"
+      "source": "/media/bg-botanico.mp4",
+      "destination": "https://soykarinacelleri.vercel.app/media/bg-botanico.mp4"
     }
   ]
 }
