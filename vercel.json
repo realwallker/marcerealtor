@@ -1,11 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "next build",
   "alias": ["marcerealtor.vercel.app"],
   "rewrites": [
     {
-      "source": "/media/bg-botanico.mp4",
-      "destination": "https://soykarinacelleri.vercel.app/media/bg-botanico.mp4"
+      "source": "/:path*",
+      "destination": "https://soykarinacelleri.vercel.app/:path*"
     }
   ]
 }
