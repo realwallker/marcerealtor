@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/media/bg-botanico.mp4",
+      "destination": "https://soykarinacelleri.vercel.app/media/bg-botanico.mp4"
+    }
+  ]
+}
