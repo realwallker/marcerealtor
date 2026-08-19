@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="description" content="Marcelo Ramirez Celleri · Realtor · ONE Destiny">
+    <meta property="og:title" content="Marcelo Ramirez Celleri | Realtor">
+    <meta property="og:description" content="Gestión estratégica de propiedades. Compra, venta y alquiler con excelencia.">
+    <meta name="theme-color" content="#0D0D0D">
+    <title>Marcelo Ramirez Celleri | Realtor</title>
+
+    <!-- Precarga sólo de los thumbnails above-the-fold -->
+
+
+    <link rel="icon" type="image/png" href="img/favicon/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="img/favicon/favicon.svg" />
+<link rel="shortcut icon" href="img/favicon/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png" />
+<link rel="manifest" href="img/favicon/web-app-manifest-192x192.png" />
+
+    <link rel="preload" as="image" href="img/aurabay/thumbnail.webp">
+    <link rel="preload" as="image" href="img/captaciontop/thumbnail.webp">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            margin: 0; padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --bg:          #0A0A0B;
+            --surface:     rgba(20, 28, 42, 0.60);
+            --surface-alt: rgba(14, 20, 32, 0.75);
+            --gold:        #D4A843;
+            --gold-light:  #F0C85A;
+            --gold-glow:   rgba(212, 168, 67, 0.18);
+            --text:        #F0EDE8;
+            --muted:       #8A8A96;
+            --border:      rgba(212, 168, 67, 0.18);
+            --border-hover:rgba(212, 168, 67, 0.55);
+            --blur:        blur(20px) saturate(1.4);
+            --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+            --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+            --r:           28px;
+        }
+
+        /* ─── BASE ─────────────────────────────────── */
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            font-family: 'DM Sans', system-ui, sans-serif;
+            color: var(--text);
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px 18px 48px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Fondo con ruido y gradiente */
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: 0;
+            background:
+                radial-gradient(ellipse 900px 700px at 50% -5%, rgba(20,36,64,0.7) 0%, transparent 65%),
+                radial-gradient(ellipse 400px 300px at 80% 90%, rgba(212,168,67,0.06) 0%, transparent 60%);
+        }
+        body::after {
+            content: '';
+            position: fixed; inset: 0; z-index: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            background-size: 180px;
+            opacity: .45;
+            pointer-events: none;
+        }
+
+        /* Cursor glow — desktop only */
+        #mouseGlow {
+            position: fixed;
+            width: 520px; height: 520px;
+            background: radial-gradient(circle, rgba(212,168,67,0.07) 0%, transparent 68%);
+            border-radius: 50%;
+            pointer-events: none; z-index: 1;
+            transform: translate(-50%, -50%);
+            will-change: transform;
+            transition: transform 0.06s linear;
+        }
+        @media (pointer: coarse) { #mouseGlow { display: none; } }
+
+        /* ─── LAYOUT ────────────────────────────────── */
+        .wrap {
+            position: relative; z-index: 10;
+            width: 100%; max-width: 500px;
+            margin: 0 auto;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* ─── ENTRADA animada ───────────────────────── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* ─── PERFIL ────────────────────────────────── */
+        .avatar-wrap {
+            position: relative;
+            width: 96px; height: 96px;
+            margin-bottom: 20px;
+        }
+        .avatar-ring {
+            position: absolute; inset: -5px;
+            border-radius: 50%;
+            background: conic-gradient(var(--gold) 0deg, var(--gold-light) 90deg, transparent 160deg, var(--gold) 360deg);
+            animation: spinRing 6s linear infinite;
+        }
+        .avatar-ring::before {
+            content: '';
+            position: absolute; inset: 2px;
+            border-radius: 50%;
+            background: var(--bg);
+        }
+        @keyframes spinRing { to { transform: rotate(360deg); } }
+
+        .avatar {
+            position: relative; z-index: 2;
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #1a2030;
+            border: 2px solid transparent;
+        }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+        .name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.85rem; font-weight: 500;
+            letter-spacing: 0.02em;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .label {
+            font-size: 0.68rem; font-weight: 500;
+            letter-spacing: 0.25em; text-transform: uppercase;
+            color: var(--gold); text-align: center;
+            margin-bottom: 8px;
+        }
+        .bio {
+            font-size: 0.78rem; font-weight: 300;
+            color: var(--muted); text-align: center;
+            max-width: 300px; line-height: 1.6;
+            margin: 0 auto 30px;
+        }
+
+        /* ─── LINKS LIST ─────────────────────────────── */
+        .links { list-style: none; display: flex; flex-direction: column; gap: 12px; width: 100%; }
+
+        /* ─── BOTÓN BASE ─────────────────────────────── */
+        .btn {
+            display: flex; align-items: center; gap: 12px;
+            width: 100%; padding: 13px 18px;
+            border-radius: 40px;
+            background: var(--surface);
+            backdrop-filter: var(--blur);
+            border: 1px solid var(--border);
+            cursor: pointer; text-decoration: none;
+            color: var(--text); font-weight: 500;
+            font-family: inherit;
+            position: relative; overflow: hidden;
+            transition: border-color 0.22s, transform 0.22s var(--ease-spring), box-shadow 0.22s, background 0.22s;
+            -webkit-user-select: none; user-select: none;
+        }
+        .btn:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.35), 0 0 0 1px var(--gold-glow);
+            background: var(--surface-alt);
+        }
+        .btn:active { transform: scale(0.98); }
+
+        .btn-icon { width: 20px; height: 20px; color: var(--muted); flex-shrink: 0; transition: color 0.2s; }
+        .btn:hover .btn-icon { color: var(--gold); }
+        .btn-body { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .btn-label { font-size: 0.88rem; font-weight: 500; }
+        .btn-sub { font-size: 0.68rem; color: var(--muted); }
+        .btn-arrow {
+            width: 14px; height: 14px; opacity: 0;
+            transform: translateX(-6px);
+            transition: opacity 0.2s, transform 0.2s;
+            color: var(--gold);
+        }
+        .btn:hover .btn-arrow { opacity: 1; transform: translateX(0); }
+
+        /* CTA dorado */
+        .btn.cta {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            border: none;
+            box-shadow: 0 4px 18px rgba(212,168,67,0.28);
+        }
+        .btn.cta .btn-icon, .btn.cta .btn-label, .btn.cta .btn-sub { color: #0D0D0D; }
+        .btn.cta:hover { box-shadow: 0 10px 30px rgba(212,168,67,0.42); background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%); }
+        .btn.cta .btn-arrow { color: #0D0D0D; }
+
+        /* ─── GRIDS ─────────────────────────────────── */
+
+        /* 2 proyectos principales */
+        .grid-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            width: 100%;
+        }
+
+        /* Tarjeta de proyecto (cualquier tamaño) */
+        .pcard {
+            border-radius: var(--r);
+            background-size: cover; background-position: center;
+            background-color: #141e2e;
+            position: relative; cursor: pointer;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: transform 0.28s var(--ease-spring), border-color 0.22s, box-shadow 0.28s;
+            will-change: transform;
+            -webkit-user-select: none; user-select: none;
+        }
+        .pcard::before {
+            content: '';
+            position: absolute; inset: 0; z-index: 1;
+            background: linear-gradient(to top, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.12) 55%, transparent 100%);
+            transition: opacity 0.25s;
+        }
+        .pcard:hover {
+            transform: translateY(-4px) scale(1.01);
+            border-color: var(--gold);
+            box-shadow: 0 18px 38px rgba(0,0,0,0.5), 0 0 0 1px var(--gold-glow);
+        }
+        .pcard:active { transform: scale(0.97); }
+        .pcard-content {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 10px 12px; z-index: 2;
+        }
+        .pcard-name { font-weight: 600; font-size: 0.88rem; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+        .pcard-hint { font-size: 0.65rem; color: rgba(255,255,255,0.65); margin-top: 2px; }
+
+        /* Tarjetas grandes (aspecto 1:1) */
+        .pcard.lg { aspect-ratio: 1 / 1; }
+
+        /* ─── MINI GRID (4 captaciones) ─────────────── */
+        .grid-mini {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            width: 100%;
+        }
+        .pcard.sm { aspect-ratio: 1 / 1; border-radius: 22px; }
+        .pcard.sm .pcard-name { font-size: 0.62rem; }
+        .pcard.sm .pcard-hint { font-size: 0.55rem; }
+        .pcard.sm:hover { transform: translateY(-3px) scale(1.03); }
+
+        /* Badge "NEW" */
+        .badge-new {
+            position: absolute; top: 8px; right: 8px; z-index: 3;
+            background: var(--gold); color: #0D0D0D;
+            font-size: 0.55rem; font-weight: 700;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            padding: 3px 7px; border-radius: 20px;
+        }
+
+        /* ─── 2 COLUMNAS (Podcast / Cal) ────────────── */
+        .grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+        .feat-card {
+            background: var(--surface);
+            backdrop-filter: var(--blur);
+            border-radius: var(--r);
+            padding: 18px 14px; text-align: center;
+            cursor: pointer; border: 1px solid var(--border);
+            transition: transform 0.25s var(--ease-spring), border-color 0.2s, box-shadow 0.25s, background 0.2s;
+            text-decoration: none; color: var(--text);
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            position: relative; overflow: hidden;
+        }
+        .feat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--border-hover);
+            background: var(--surface-alt);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+        }
+        .feat-card:active { transform: scale(0.97); }
+        .feat-icon { width: 34px; height: 34px; color: var(--gold); }
+        .feat-title { font-weight: 600; font-size: 0.88rem; }
+        .feat-desc { font-size: 0.68rem; color: var(--muted); line-height: 1.4; }
+
+        /* Hover glow interno */
+        .feat-card::before {
+            content: ''; position: absolute; inset: 0; border-radius: inherit;
+            background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(212,168,67,0.12), transparent 65%);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .feat-card:hover::before { opacity: 1; }
+
+        /* ─── CONTACT CTA ────────────────────────────── */
+        .contact-cta {
+            width: 100%; background: var(--surface-alt);
+            backdrop-filter: var(--blur);
+            border-radius: var(--r); padding: 18px;
+            text-align: center; border: 1px solid var(--border);
+            cursor: pointer;
+            transition: transform 0.25s var(--ease-spring), border-color 0.2s, box-shadow 0.25s;
+        }
+        .contact-cta:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-hover);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.3);
+        }
+        .contact-cta:active { transform: scale(0.98); }
+        .contact-cta h4 { font-size: 0.95rem; font-weight: 500; margin-bottom: 5px; }
+        .contact-cta p { font-size: 0.73rem; color: var(--muted); }
+
+        /* ─── SECTION LABEL ─────────────────────────── */
+        .section-label {
+            width: 100%;
+            display: flex; align-items: center; gap: 10px;
+            font-size: 0.64rem; font-weight: 500;
+            letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+            margin-bottom: -2px;
+        }
+        .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+        /* ─── FOOTER ─────────────────────────────────── */
+        footer {
+            margin-top: 32px; text-align: center;
+            font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+        }
+        footer span { color: var(--gold); }
+        footer small { display: block; font-size: 0.58rem; color: #444450; margin-top: 3px; letter-spacing: 0; text-transform: none; }
+
+        /* ─── GALERÍA LIGHTBOX ───────────────────────── */
+        .gallery-overlay {
+            position: fixed; inset: 0; z-index: 3000;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(26px) saturate(1.2);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.28s var(--ease-out);
+        }
+        .gallery-overlay.open { opacity: 1; pointer-events: auto; }
+
+        .gallery-box {
+            width: 94%; max-width: 520px; max-height: 88vh;
+            background: rgba(12, 18, 30, 0.92);
+            backdrop-filter: blur(30px);
+            border-radius: 36px;
+            border: 1px solid rgba(212,168,67,0.35);
+            display: flex; flex-direction: column; overflow: hidden;
+            transform: scale(0.95) translateY(10px);
+            transition: transform 0.32s var(--ease-spring);
+        }
+        .gallery-overlay.open .gallery-box { transform: scale(1) translateY(0); }
+
+        .gallery-head {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(212,168,67,0.18);
+        }
+        .gallery-head h3 { font-size: 1.05rem; font-weight: 600; }
+        .gallery-head-actions { display: flex; gap: 10px; }
+        .g-btn {
+            background: none; border: none; cursor: pointer;
+            color: var(--muted); font-size: 1.5rem; line-height: 1;
+            padding: 2px 4px;
+            transition: color 0.18s, transform 0.18s;
+        }
+        .g-btn:hover { color: var(--gold); transform: scale(1.1); }
+
+        /* Viewport de medios — altura fija, sin saltos */
+        .gallery-stage {
+            flex: 1; min-height: 0;
+            height: 52vh; min-height: 240px;
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+            background: #050507;
+            overflow: hidden;
+            touch-action: pan-y pinch-zoom;
+        }
+        .gallery-stage img,
+        .gallery-stage video {
+            max-width: 100%; max-height: 100%;
+            width: auto; height: auto;
+            object-fit: contain;
+            animation: mediaPop 0.22s var(--ease-out) both;
+        }
+        @keyframes mediaPop {
+            from { opacity: 0; transform: scale(0.97); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+        .gallery-stage img.zoomed { transform: scale(1.85); cursor: zoom-out; transition: transform 0.2s; }
+        .gallery-stage img:not(.zoomed) { cursor: zoom-in; }
+
+        .g-nav {
+            position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;
+            width: 36px; height: 36px;
+            background: rgba(0,0,0,0.55); backdrop-filter: blur(8px);
+            border: 1px solid rgba(212,168,67,0.4);
+            border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; color: white;
+            transition: background 0.18s, color 0.18s, transform 0.18s;
+        }
+        .g-nav:hover { background: var(--gold); color: #0D0D0D; transform: translateY(-50%) scale(1.08); }
+        .g-nav.prev { left: 10px; }
+        .g-nav.next { right: 10px; }
+
+        .gallery-counter {
+            position: absolute; top: 10px; right: 12px; z-index: 5;
+            font-size: 0.66rem; color: rgba(255,255,255,0.6);
+            background: rgba(0,0,0,0.45); backdrop-filter: blur(6px);
+            padding: 3px 9px; border-radius: 20px;
+        }
+
+        .gallery-thumbs {
+            display: flex; gap: 7px;
+            padding: 11px 14px;
+            overflow-x: auto; overflow-y: hidden;
+            scrollbar-width: thin; scrollbar-color: var(--gold) transparent;
+            border-top: 1px solid rgba(212,168,67,0.15);
+        }
+        .gallery-thumbs::-webkit-scrollbar { height: 3px; }
+        .gallery-thumbs::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+
+        .thumb {
+            flex: 0 0 52px; height: 52px;
+            border-radius: 12px;
+            background-size: cover; background-position: center;
+            background-color: #1a2030;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.15s, transform 0.15s;
+            position: relative; overflow: hidden;
+        }
+        .thumb.active { border-color: var(--gold); transform: scale(1.05); }
+        .thumb:not(.active):hover { border-color: rgba(212,168,67,0.4); }
+        /* Icono de play sobre el thumbnail de video */
+        .thumb.is-video::after {
+            content: '▶';
+            position: absolute; inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; color: white;
+            background: rgba(0,0,0,0.35);
+        }
+
+        /* ─── MODALES ────────────────────────────────── */
+        .modal-overlay {
+            position: fixed; inset: 0; z-index: 4000;
+            background: rgba(0,0,0,0.82);
+            backdrop-filter: blur(22px);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.26s;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+        .modal-box {
+            width: 92%; max-width: 490px; max-height: 88vh;
+            background: rgba(14, 20, 32, 0.96);
+            backdrop-filter: blur(28px);
+            border-radius: 34px;
+            border: 1px solid rgba(212,168,67,0.28);
+            overflow-y: auto; padding: 22px;
+            transform: scale(0.95);
+            transition: transform 0.3s var(--ease-spring);
+        }
+        .modal-overlay.open .modal-box { transform: scale(1); }
+        .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .modal-head h3 { font-size: 1.2rem; font-weight: 600; }
+
+        .field { margin-bottom: 16px; }
+        .field label { display: block; font-size: 0.75rem; color: var(--muted); margin-bottom: 6px; }
+        .field input, .field textarea {
+            width: 100%; padding: 11px 14px;
+            background: rgba(0,0,0,0.38);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-family: inherit; color: var(--text); font-size: 0.88rem;
+            outline: none; transition: border-color 0.2s;
+        }
+        .field input:focus, .field textarea:focus { border-color: var(--gold); }
+        .submit-btn {
+            width: 100%; padding: 12px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            border: none; border-radius: 30px;
+            font-family: inherit; font-weight: 600; font-size: 0.9rem;
+            color: #0D0D0D; cursor: pointer;
+            transition: opacity 0.2s, transform 0.18s;
+        }
+        .submit-btn:hover { opacity: 0.9; transform: scale(0.99); }
+
+        .iframe-cal {
+            width: 100%; height: 520px;
+            border: none; border-radius: 22px;
+        }
+
+        /* ─── STATUS ─────────────────────────────────── */
+        #formStatus { margin-top: 12px; font-size: 0.78rem; text-align: center; min-height: 20px; }
+
+        /* ─── RIPPLE ─────────────────────────────────── */
+        .ripple-el {
+            position: absolute; border-radius: 50%;
+            background: rgba(212,168,67,0.25);
+            transform: scale(0);
+            animation: ripple 0.55s var(--ease-out) forwards;
+            pointer-events: none;
+        }
+        @keyframes ripple { to { transform: scale(5); opacity: 0; } }
+
+        /* ─── RESPONSIVE ─────────────────────────────── */
+        @media (max-width: 420px) {
+            .name { font-size: 1.55rem; }
+            .grid-mini { gap: 7px; }
+            .pcard.sm .pcard-name { font-size: 0.56rem; }
+            .g-nav { width: 30px; height: 30px; font-size: 1.2rem; }
+            .gallery-stage { height: 44vh; min-height: 200px; }
+            .grid-two { gap: 8px; }
+            .feat-card { padding: 14px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="mouseGlow"></div>
+
+<main class="wrap">
+
+    <!-- ── PERFIL ── -->
+    <div class="avatar-wrap fade-up" style="--d:.05s">
+        <div class="avatar-ring"></div>
+        <div class="avatar">
+            <img src="img/perfil.webp" alt="Marcelo Ramirez Celleri" loading="eager">
+        </div>
+    </div>
+
+    <h1 class="name fade-up" style="--d:.12s">Marcelo Ramirez Celleri</h1>
+    <p class="label fade-up" style="--d:.17s">Realtor · ONE Destiny</p>
+    <p class="bio fade-up" style="--d:.22s">Especialista en gestión estratégica de propiedades. Compra, venta y alquiler bajo estándares de excelencia.</p>
+
+    <ul class="links">
+
+        <!-- CTA WhatsApp -->
+        <li class="fade-up" style="--d:.28s">
+            <a href="https://wa.me/593978814263?text=Hola%20Marcelo%2C%20me%20gustar%C3%ADa%20agendar%20una%20asesor%C3%ADa"
+               target="_blank" rel="noopener" class="btn cta">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+                <span class="btn-body"><span class="btn-label">Agendar Asesoría</span><span class="btn-sub">+593 97 881 4263</span></span>
+                <svg class="btn-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4l4 4-4 4"/></svg>
+            </a>
+        </li>
+
+        <!-- Proyectos principales -->
+        <li class="fade-up" style="--d:.33s">
+            <p class="section-label">Proyectos destacados</p>
+        </li>
+        <li class="fade-up" style="--d:.36s">
+            <div class="grid-main">
+                <!-- Aura Bay -->
+                <div class="pcard lg" data-project="aurabay"
+                     style="background-image:url('img/aurabay/thumbnail.webp')">
+                    <div class="pcard-content">
+                        <div class="pcard-name">Aura Bay</div>
+                        <div class="pcard-hint">Ver galería →</div>
+                    </div>
+                </div>
+                <!-- Torre 3000 (reemplaza Piedra del Sol como nueva captación) -->
+                <div class="pcard lg" data-project="olonesavillage"
+                     style="background-image:url('img/captaciontop/thumbnail.webp')">
+                    <div class="badge-new">Nuevo</div>
+                    <div class="pcard-content">
+                        <div class="pcard-name">Olonesa Reserva Village</div>
+                        <div class="pcard-hint">Ver galería →</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <!-- Mini captaciones -->
+        <li class="fade-up" style="--d:.40s">
+            <p class="section-label">Propiedades que pueden interesarte</p>
+        </li>
+        <li class="fade-up" style="--d:.43s">
+            <div class="grid-mini" id="miniGrid"></div>
+        </li>
+
+        <!-- Podcast + Calendario -->
+        <li class="fade-up" style="--d:.48s">
+            <div class="grid-two">
+                <div class="feat-card" id="podcastCard">
+                    <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="22"/>
+                    </svg>
+                    <div class="feat-title">Primera Piedra Podcast</div>
+                    <div class="feat-desc">Podcast Inmobiliario, gestionado por mi.</div>
+                </div>
+                <div class="feat-card" id="calCard">
+                    <svg class="feat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="3" y="4" width="18" height="18" rx="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                        <circle cx="12" cy="15" r="1" fill="currentColor" stroke="none"/>
+                        <circle cx="16" cy="15" r="1" fill="currentColor" stroke="none"/>
+                        <circle cx="8"  cy="15" r="1" fill="currentColor" stroke="none"/>
+                    </svg>
+                    <div class="feat-title">Agendar Cita</div>
+                    <div class="feat-desc">Coordina una reunión por Google Meet.</div>
+                </div>
+            </div>
+        </li>
+
+        <!-- Contacto -->
+        <li class="fade-up" style="--d:.52s">
+            <div class="contact-cta" id="contactTrigger">
+                <h4>📩 ¿Prefieres que te contacte yo?</h4>
+                <p>Déjame tus datos y te escribiré a la brevedad.</p>
+            </div>
+        </li>
+
+        <!-- Redes -->
+        <li class="fade-up" style="--d:.56s">
+            <a href="https://www.instagram.com/marce.realtor" target="_blank" rel="noopener" class="btn">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="2" width="20" height="20" rx="6"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+                <span class="btn-body"><span class="btn-label">Instagram</span><span class="btn-sub">@marce.realtor</span></span>
+                <svg class="btn-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4l4 4-4 4"/></svg>
+            </a>
+        </li>
+        <li class="fade-up" style="--d:.60s">
+            <a href="https://www.tiktok.com/@marceramrealtor1" target="_blank" rel="noopener" class="btn">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+                <span class="btn-body"><span class="btn-label">TikTok</span><span class="btn-sub">@marceramrealtor1</span></span>
+                <svg class="btn-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4l4 4-4 4"/></svg>
+            </a>
+        </li>
+        <li class="fade-up" style="--d:.64s">
+            <a href="mailto:marceramrealtor@gmail.com" class="btn">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M2 6l10 7 10-7"/></svg>
+                <span class="btn-body"><span class="btn-label">Correo</span><span class="btn-sub">marceramrealtor@gmail.com</span></span>
+                <svg class="btn-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 4l4 4-4 4"/></svg>
+            </a>
+        </li>
+
+    </ul>
+
+    <footer class="fade-up" style="--d:.70s">
+        ONE <span>Destiny</span>
+        <small>&copy; 2026 · Todos los derechos reservados</small>
+    </footer>
+
+</main>
+
+<!-- ══ GALERÍA ══════════════════════════════════════════ -->
+<div class="gallery-overlay" id="galleryOverlay" role="dialog" aria-modal="true" aria-label="Galería de proyecto">
+    <div class="gallery-box">
+        <div class="gallery-head">
+            <h3 id="galleryTitle">Proyecto</h3>
+            <div class="gallery-head-actions">
+                <button class="g-btn" id="shareBtn" aria-label="Compartir">📤</button>
+                <button class="g-btn" id="closeGallery" aria-label="Cerrar">&#x2715;</button>
+            </div>
+        </div>
+        <div class="gallery-stage" id="galleryStage">
+            <img id="gImg" src="" alt="" style="display:none">
+            <video id="gVid" controls muted playsinline style="display:none"></video>
+            <button class="g-nav prev" id="gPrev" aria-label="Anterior">&#8249;</button>
+            <button class="g-nav next" id="gNext" aria-label="Siguiente">&#8250;</button>
+            <div class="gallery-counter" id="gCounter">1 / 1</div>
+        </div>
+        <div class="gallery-thumbs" id="galleryThumbs"></div>
+    </div>
+</div>
+
+<!-- ══ MODAL CAL ════════════════════════════════════════ -->
+<div class="modal-overlay" id="calModal" role="dialog" aria-modal="true">
+    <div class="modal-box">
+        <div class="modal-head">
+            <h3>Agendar Cita</h3>
+            <button class="g-btn" id="closeCalModal">&#x2715;</button>
+        </div>
+        <iframe src="https://cal.com/marcerealtor" class="iframe-cal" title="Calendario Marcelo" loading="lazy"></iframe>
+    </div>
+</div>
+
+<!-- ══ MODAL CONTACTO ═══════════════════════════════════ -->
+<div class="modal-overlay" id="contactModal" role="dialog" aria-modal="true">
+    <div class="modal-box">
+        <div class="modal-head">
+            <h3>Déjame tus datos</h3>
+            <button class="g-btn" id="closeContactModal">&#x2715;</button>
+        </div>
+        <form id="contactForm" novalidate>
+            <div class="field">
+                <label>Nombre completo</label>
+                <input type="text" name="name" required placeholder="Ej: Juan Pérez" autocomplete="name">
+            </div>
+            <div class="field">
+                <label>Celular</label>
+                <input type="tel" name="phone" required placeholder="+593 99 999 9999" autocomplete="tel">
+            </div>
+            <div class="field">
+                <label>Correo electrónico</label>
+                <input type="email" name="email" required placeholder="tucorreo@ejemplo.com" autocomplete="email">
+            </div>
+            <div class="field">
+                <label>Motivo</label>
+                <textarea name="message" rows="3" placeholder="¿En qué puedo ayudarte?"></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Enviar mensaje</button>
+        </form>
+        <p id="formStatus"></p>
+    </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════
+   DATOS DE PROYECTOS — edita aquí
+════════════════════════════════════════════════════════ */
+const PROJECTS = {
+
+    /* ── Proyectos principales ─────────────────────── */
+    aurabay: {
+        title: 'Aura Bay',
+        media: [
+            { type: 'image', src: 'img/aurabay/1.webp',    alt: 'Vista principal' },
+            { type: 'video', src: 'img/aurabay/video.webm', poster: 'img/aurabay/poster.webp' },
+            { type: 'image', src: 'img/aurabay/2.webp',    alt: 'Interior' },
+            { type: 'image', src: 'img/aurabay/3.webp',    alt: 'Rooftop' },
+            { type: 'image', src: 'img/aurabay/4.webp',    alt: 'Penthouse' },
+            { type: 'image', src: 'img/aurabay/5.webp',    alt: 'Torres' },
+            { type: 'image', src: 'img/aurabay/6.webp',    alt: 'Torre Vigía' },
+            { type: 'image', src: 'img/aurabay/7.webp',    alt: 'Vista Salinas' },
+        ]
+    },
+
+    olonesavillage: {
+        title: 'Olonesa Reserva Village',
+        media: [
+            { type: 'image', src: 'img/captaciontop/1.webp',  alt: 'Fachada' },
+            { type: 'image', src: 'img/captaciontop/2.webp',  alt: 'Vista' },
+            { type: 'image', src: 'img/captaciontop/3.webp',  alt: 'Piscina' },
+            { type: 'image', src: 'img/captaciontop/4.webp',  alt: 'Atardecer' },
+            { type: 'image', src: 'img/captaciontop/5.webp',  alt: 'Atardecer' },
+        ]
+    },
+
+    /* ── Mini captaciones (4 tarjetas pequeñas) ────── */
+    /* Edita name, thumb y media según tus proyectos   */
+    captacion1: {
+        title: 'Casa en Venta - Fuentes del Rio',
+        thumb: 'img/captaciones/cap1/thumbnail.webp',
+        media: [
+            { type: 'image', src: 'img/captaciones/cap1/1.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap1/2.webp', alt: 'Interior' },
+            { type: 'image', src: 'img/captaciones/cap1/3.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap1/4.webp', alt: 'Interior' },
+            { type: 'image', src: 'img/captaciones/cap1/5.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap1/6.webp', alt: 'Interior' },
+            { type: 'image', src: 'img/captaciones/cap1/7.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap1/8.webp', alt: 'Interior' },
+            { type: 'image', src: 'img/captaciones/cap1/9.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap1/10.webp', alt: 'Interior' },
+            { type: 'image', src: 'img/captaciones/cap1/11.webp', alt: 'Vista' }
+        ]
+    },
+    captacion2: {
+        title: 'Casa en Venta - La Herradura',
+        thumb: 'img/captaciones/cap2/thumbnail.webp',
+        media: [
+            { type: 'image', src: 'img/captaciones/cap2/1.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap2/2.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap2/3.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap2/4.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap2/5.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap2/6.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap2/7.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap2/8.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap2/9.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap2/10.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap2/11.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap2/12.webp', alt: 'Vista' },
+        ]
+    },
+    captacion3: {
+        title: 'Oficina en Alquiler - Arcos Plaza 1',
+        thumb: 'img/captaciones/cap3/thumbnail.webp',
+        media: [
+            { type: 'image', src: 'img/captaciones/cap3/1.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap3/2.webp', alt: 'Detalle' },
+            { type: 'image', src: 'img/captaciones/cap3/3.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap3/4.webp', alt: 'Detalle' },
+            { type: 'image', src: 'img/captaciones/cap3/5.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap3/6.webp', alt: 'Detalle' },
+            { type: 'image', src: 'img/captaciones/cap3/7.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap3/8.webp', alt: 'Detalle' },
+            { type: 'image', src: 'img/captaciones/cap3/9.webp', alt: 'Vista' }
+        ]
+    },
+    captacion4: {
+        title: 'Piedra del Sol - Próximamente',
+        thumb: 'img/captaciones/cap4/thumbnail.webp',
+        badge: 'Pronto',
+        media: [
+            { type: 'image', src: 'img/captaciones/cap4/1.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap4/2.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap4/3.webp', alt: 'Vista' },
+            { type: 'image', src: 'img/captaciones/cap4/4.webp', alt: 'Vista' },
+        ]
+    },
+};
+
+/* IDs de los mini proyectos (en orden de aparición) */
+const MINI_IDS = ['captacion1', 'captacion2', 'captacion3', 'captacion4'];
+
+/* ════════════════════════════════════════════════════════
+   GALERÍA — motor unificado
+════════════════════════════════════════════════════════ */
+const galleryOverlay = document.getElementById('galleryOverlay');
+const galleryTitleEl = document.getElementById('galleryTitle');
+const gImg           = document.getElementById('gImg');
+const gVid           = document.getElementById('gVid');
+const galleryThumbs  = document.getElementById('galleryThumbs');
+const gPrev          = document.getElementById('gPrev');
+const gNext          = document.getElementById('gNext');
+const gCounter       = document.getElementById('gCounter');
+const shareBtn       = document.getElementById('shareBtn');
+const closeGallery   = document.getElementById('closeGallery');
+
+let currentProject = null;
+let currentIdx     = 0;
+
+function openGallery(id) {
+    const proj = PROJECTS[id];
+    if (!proj) return;
+    currentProject = proj;
+    currentIdx     = 0;
+    galleryTitleEl.textContent = proj.title;
+    buildThumbs();
+    showMedia(0);
+    galleryOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeGalleryFn() {
+    galleryOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+    gVid.pause();
+    gVid.removeAttribute('src');
+    gImg.classList.remove('zoomed');
+    currentProject = null;
+}
+
+function showMedia(idx) {
+    if (!currentProject) return;
+    const item = currentProject.media[idx];
+    currentIdx = idx;
+
+    /* Oculta y resetea */
+    gImg.style.display = 'none';
+    gVid.style.display = 'none';
+    gVid.pause();
+    gVid.removeAttribute('src');
+    gImg.classList.remove('zoomed');
+
+    if (item.type === 'image') {
+        /* Fuerza re-animación */
+        gImg.style.animation = 'none';
+        gImg.offsetHeight;
+        gImg.style.animation = '';
+        gImg.src = item.src;
+        gImg.alt = item.alt || '';
+        gImg.style.display = '';
+    } else if (item.type === 'video') {
+        gVid.style.animation = 'none';
+        gVid.offsetHeight;
+        gVid.style.animation = '';
+        gVid.src = item.src;
+        if (item.poster) gVid.poster = item.poster;
+        gVid.style.display = '';
+        gVid.load();
+        gVid.play().catch(() => {});
+    }
+
+    /* Actualiza contador */
+    gCounter.textContent = `${idx + 1} / ${currentProject.media.length}`;
+
+    /* Actualiza thumb activo */
+    galleryThumbs.querySelectorAll('.thumb').forEach((t, i) => t.classList.toggle('active', i === idx));
+
+    /* Scroll del thumb activo al centro */
+    const activeThumb = galleryThumbs.children[idx];
+    if (activeThumb) activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+function buildThumbs() {
+    galleryThumbs.innerHTML = '';
+    currentProject.media.forEach((item, i) => {
+        const t = document.createElement('div');
+        t.className = 'thumb' + (i === 0 ? ' active' : '');
+        if (item.type === 'video') t.classList.add('is-video');
+        const bg = item.type === 'image' ? item.src : (item.poster || '');
+        if (bg) t.style.backgroundImage = `url('${bg}')`;
+        t.addEventListener('click', () => showMedia(i));
+        galleryThumbs.appendChild(t);
+    });
+}
+
+function navigate(dir) {
+    if (!currentProject) return;
+    const n = currentProject.media.length;
+    showMedia((currentIdx + dir + n) % n);
+}
+
+gPrev.addEventListener('click', () => navigate(-1));
+gNext.addEventListener('click', () => navigate(+1));
+closeGallery.addEventListener('click', closeGalleryFn);
+galleryOverlay.addEventListener('click', e => { if (e.target === galleryOverlay) closeGalleryFn(); });
+
+/* Zoom doble clic */
+gImg.addEventListener('dblclick', () => gImg.classList.toggle('zoomed'));
+
+/* Teclado */
+document.addEventListener('keydown', e => {
+    if (!galleryOverlay.classList.contains('open')) return;
+    if (e.key === 'Escape')       closeGalleryFn();
+    if (e.key === 'ArrowLeft')    navigate(-1);
+    if (e.key === 'ArrowRight')   navigate(+1);
+});
+
+/* Swipe táctil */
+let touchX0 = 0;
+const stage = document.getElementById('galleryStage');
+stage.addEventListener('touchstart', e => { touchX0 = e.changedTouches[0].screenX; }, { passive: true });
+stage.addEventListener('touchend', e => {
+    const d = e.changedTouches[0].screenX - touchX0;
+    if (Math.abs(d) > 45) navigate(d > 0 ? -1 : +1);
+});
+
+/* Compartir */
+shareBtn.addEventListener('click', () => {
+    const url = (currentProject?.media[currentIdx]?.type === 'image')
+        ? currentProject.media[currentIdx].src : window.location.href;
+    if (navigator.share) navigator.share({ title: currentProject?.title || '', url });
+    else { navigator.clipboard?.writeText(window.location.href); alert('Enlace copiado: ' + window.location.href); }
+});
+
+/* ════════════════════════════════════════════════════════
+   MINI PROYECTOS — genera tarjetas
+════════════════════════════════════════════════════════ */
+const miniGrid = document.getElementById('miniGrid');
+MINI_IDS.forEach(id => {
+    const proj = PROJECTS[id];
+    if (!proj) return;
+    const card = document.createElement('div');
+    card.className = 'pcard sm';
+    card.setAttribute('data-project', id);
+    if (proj.thumb) card.style.backgroundImage = `url('${proj.thumb}')`;
+    card.innerHTML = `
+        ${proj.badge ? `<div class="badge-new">${proj.badge}</div>` : ''}
+        <div class="pcard-content">
+            <div class="pcard-name">${proj.title}</div>
+        </div>
+    `;
+    miniGrid.appendChild(card);
+});
+
+/* Delegación de clics para TODAS las tarjetas de proyecto */
+document.addEventListener('click', e => {
+    const card = e.target.closest('[data-project]');
+    if (card) openGallery(card.dataset.project);
+});
+
+/* ════════════════════════════════════════════════════════
+   MODALES — Cal.com y Contacto
+════════════════════════════════════════════════════════ */
+function openModal(id)  { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
+
+document.getElementById('calCard').addEventListener('click', () => openModal('calModal'));
+document.getElementById('closeCalModal').addEventListener('click', () => closeModal('calModal'));
+document.getElementById('calModal').addEventListener('click', e => { if (e.target.id === 'calModal') closeModal('calModal'); });
+
+document.getElementById('contactTrigger').addEventListener('click', () => openModal('contactModal'));
+document.getElementById('closeContactModal').addEventListener('click', () => closeModal('contactModal'));
+document.getElementById('contactModal').addEventListener('click', e => { if (e.target.id === 'contactModal') closeModal('contactModal'); });
+
+/* Podcast */
+document.getElementById('podcastCard').addEventListener('click', () => window.open('https://primerapiedraec.vercel.app/', '_blank'));
+
+/* Formulario */
+const contactForm = document.getElementById('contactForm');
+const formStatus  = document.getElementById('formStatus');
+const FORMSPREE   = 'https://formspree.io/f/xaqkrjvn';
+
+contactForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    formStatus.textContent = 'Enviando…';
+    try {
+        const res = await fetch(FORMSPREE, {
+            method: 'POST', body: new FormData(contactForm),
+            headers: { Accept: 'application/json' }
+        });
+        if (res.ok) {
+            formStatus.textContent = '✅ Mensaje enviado. Te contactaré pronto.';
+            contactForm.reset();
+            setTimeout(() => closeModal('contactModal'), 2200);
+        } else {
+            formStatus.textContent = '❌ Error al enviar. Escríbeme por WhatsApp.';
+        }
+    } catch {
+        formStatus.textContent = '❌ Sin conexión. Revisa tu internet.';
+    }
+});
+
+/* ════════════════════════════════════════════════════════
+   ANIMACIONES DE ENTRADA — IntersectionObserver
+════════════════════════════════════════════════════════ */
+const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const el = entry.target;
+            const delay = el.style.getPropertyValue('--d') || '0s';
+            el.style.transitionDelay = delay;
+            el.classList.add('visible');
+            io.unobserve(el);
+        }
+    });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+/* ════════════════════════════════════════════════════════
+   EFECTOS DE UI
+════════════════════════════════════════════════════════ */
+
+/* Cursor glow */
+const glow = document.getElementById('mouseGlow');
+if (glow && window.matchMedia('(pointer:fine)').matches) {
+    let rafId;
+    document.addEventListener('mousemove', e => {
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+            glow.style.transform = `translate(${e.clientX}px,${e.clientY}px)`;
+        });
+    });
+}
+
+/* Glow radial interno en feat-cards */
+document.querySelectorAll('.feat-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${e.clientX - r.left}px`);
+        card.style.setProperty('--my', `${e.clientY - r.top}px`);
+    });
+});
+
+/* Ripple en botones */
+document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('pointerdown', e => {
+        const r = btn.getBoundingClientRect();
+        const size = Math.max(r.width, r.height);
+        const el = document.createElement('span');
+        el.className = 'ripple-el';
+        Object.assign(el.style, {
+            width:  size + 'px',
+            height: size + 'px',
+            left:   (e.clientX - r.left - size / 2) + 'px',
+            top:    (e.clientY - r.top  - size / 2) + 'px',
+        });
+        btn.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+    });
+});
+
+</script>
+</body>
+</html>
